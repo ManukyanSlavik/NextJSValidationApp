@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-const schema = z.object({
+export const schema = z.object({
   name: z.string().min(3, "Username too short."),
   email: z.email("Invalid email"),
   password: z
@@ -14,4 +14,4 @@ const schema = z.object({
     ),
 });
 
-export default schema;
+export type AuthForm = z.infer<typeof schema>;
