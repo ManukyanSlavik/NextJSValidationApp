@@ -2,13 +2,14 @@ import prisma from "@/prisma/client";
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
-import { signInSchema } from "../../users/schema";
+import { schema } from "../../users/schema";
 
 export const authOptions = {
   providers: [
     CredentialsProvider({
       name: "Credentials",
       credentials: {
+        username: { label: "Username", type: "text", placeholder: "Username" },
         email: { label: "Email", type: "email", placeholder: "Email" },
         password: {
           label: "Password",
@@ -17,7 +18,7 @@ export const authOptions = {
         },
       },
       authorize: async function (credentials, req) {
-        const parsed = signInSchema.safeParse(credentials);
+        const parsed = schema.safeParse(credentials);
 
         if (!parsed.success) return null;
 
@@ -33,9 +34,6 @@ export const authOptions = {
       },
     }),
   ],
-  pages: {
-    signIn: "/signin",
-  },
 };
 
 const handler = NextAuth(authOptions);
