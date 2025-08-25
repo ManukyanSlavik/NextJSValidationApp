@@ -1,11 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/prisma/client";
 import bcrypt from "bcryptjs";
+import { getAllUsers } from "@/app/services/userService";
 
 export async function GET(request: NextRequest) {
-  const data = await prisma.user.findMany();
-
-  return NextResponse.json(data);
+  return NextResponse.json(await getAllUsers());
 }
 
 export async function POST(request: NextRequest) {
