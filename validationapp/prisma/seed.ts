@@ -7,17 +7,17 @@ async function seed() {
   const passwordHash = await bcrypt.hash("asdf_123", 12);
 
   await prisma.user.upsert({
-    where: { email: "smanukyan2005@gmail.com" },
+    where: { email: "admin@test.com" },
     update: {},
     create: {
-      email: "smanukyan2005@gmail.com",
+      email: "admin@test.com",
       name: "Admin",
       passwordHash,
     },
   });
 
   const adminId = await prisma.user
-    .findUnique({ where: { email: "smanukyan2005@gmail.com" } })
+    .findUnique({ where: { email: "admin@test.com" } })
     .then((u) => u?.id);
 
   if (adminId) {
