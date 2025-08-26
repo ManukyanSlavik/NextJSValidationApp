@@ -7,3 +7,4 @@
 3. "npx prisma generate" in der Console ausführen
 4. "npx prisma migrate dev" ausführen
 5. (Optional) "npx prisma db seed" ausführen. (Login: admin@test.com, Passwort: asdf_123)
+6. npm run dev
