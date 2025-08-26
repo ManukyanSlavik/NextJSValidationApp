@@ -2,7 +2,7 @@ import prisma from "@/prisma/client";
 import NextAuth, { Session, User } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
-import { signInSchema } from "../../users/schema";
+import { signInSchema } from "../../../schema";
 import { JWT } from "next-auth/jwt";
 import { AdapterUser } from "next-auth/adapters";
 
@@ -50,16 +50,10 @@ export const authOptions = {
     },
   },
   pages: {
-    signIn: "/signin",
+    signIn: "/pages/signin",
   },
 };
 
 const handler = NextAuth(authOptions);
 
 export { handler as GET, handler as POST };
-
-// /api/auth/signin
-// /api/auth/signout
-// SessionProvider
-// const {status, session} = useSession()
-// await getServerSession(authOptions)

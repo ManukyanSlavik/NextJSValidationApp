@@ -1,4 +1,4 @@
-import { signUpSchema } from "../api/users/schema";
+import { signUpSchema } from "../schema";
 import prisma from "@/prisma/client";
 import bcrypt from "bcryptjs";
 

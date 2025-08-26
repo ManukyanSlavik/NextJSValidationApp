@@ -5,7 +5,7 @@ import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import React from "react";
 import { useForm } from "react-hook-form";
-import { SignInForm, signInSchema } from "../api/users/schema";
+import { SignInForm, signInSchema } from "../../schema";
 import Link from "next/link";
 
 const SignIn = () => {
@@ -84,7 +84,7 @@ const SignIn = () => {
 
           <p className="text-center text-sm">
             Dont have an account?{" "}
-            <Link href="/register" className="link link-primary">
+            <Link href="/pages/register" className="link link-primary">
               Sign up
             </Link>
           </p>

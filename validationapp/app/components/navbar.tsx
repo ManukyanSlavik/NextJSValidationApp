@@ -18,10 +18,10 @@ const Navbar = () => {
       {status === "unauthenticated" && (
         <>
           <div className="navbar-end">
-            <Link href="/register" className="btn mr-1">
+            <Link href="/pages/register" className="btn mr-1">
               Sign up
             </Link>
-            <Link href="api/auth/signin" className="btn mr-1">
+            <Link href="/pages/signin" className="btn mr-1">
               Sign in
             </Link>
           </div>

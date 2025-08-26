@@ -1,6 +1,6 @@
 "use server";
 
-import { registerUser } from "../services/userService";
+import { registerUser } from "../../services/userService";
 
 export async function registerAction(formData: FormData) {
   return await registerUser({
