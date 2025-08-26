@@ -4,17 +4,31 @@ import bcrypt from "bcryptjs";
 const prisma = new PrismaClient();
 
 async function seed() {
-  const passwordHash = await bcrypt.hash("SuperCoolAdminPassword_123", 12);
+  const passwordHash = await bcrypt.hash("asdf_123", 12);
 
   await prisma.user.upsert({
-    where: { email: "admin@pizdatiy.com" },
+    where: { email: "smanukyan2005@gmail.com" },
     update: {},
     create: {
-      email: "admin@pizdatiy.com",
+      email: "smanukyan2005@gmail.com",
       name: "Admin",
       passwordHash,
     },
   });
+
+  const adminId = await prisma.user
+    .findUnique({ where: { email: "smanukyan2005@gmail.com" } })
+    .then((u) => u?.id);
+
+  if (adminId) {
+    await prisma.task.create({
+      data: {
+        userId: adminId,
+        description: "Test task",
+        isCompleted: false,
+      },
+    });
+  }
 }
 
 seed()

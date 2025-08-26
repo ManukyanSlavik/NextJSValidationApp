@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import React from "react";
 import { useForm } from "react-hook-form";
 import { SignInForm, signInSchema } from "../api/users/schema";
+import Link from "next/link";
 
 const SignIn = () => {
   const router = useRouter();
@@ -80,6 +81,13 @@ const SignIn = () => {
               Sign in
             </button>
           </div>
+
+          <p className="text-center text-sm">
+            Dont have an account?{" "}
+            <Link href="/register" className="link link-primary">
+              Sign up
+            </Link>
+          </p>
         </form>
       </div>
     </div>

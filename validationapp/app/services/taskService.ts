@@ -1,3 +1,5 @@
+"use server";
+
 import prisma from "@/prisma/client";
 
 export const getAllTasks = async (userId: string) => {
@@ -14,15 +16,19 @@ export const createTask = async (userId: string, description: string) => {
   });
 };
 
-export const updateTask = async (
-  taskId: string,
-  newDesc: string,
-  isCompleted: boolean
-) => {
+export const updateTask = async (taskId: string, newDesc: string) => {
   await prisma.task.update({
     where: { id: taskId },
     data: {
       description: newDesc,
+    },
+  });
+};
+
+export const checkTask = async (taskId: string, isCompleted: boolean) => {
+  await prisma.task.update({
+    where: { id: taskId },
+    data: {
       isCompleted,
     },
   });
