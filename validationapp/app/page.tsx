@@ -1,7 +1,21 @@
+<<<<<<< HEAD
 import Image from "next/image";
+=======
+import { getServerSession } from "next-auth";
+import { authOptions } from "./api/auth/[...nextauth]/route";
+import { getAllTasks } from "./services/taskService";
+import Task, { taskData } from "./components/task";
+import CreateTask from "./components/createTask";
+import AuthProvider from "./api/auth/AuthProvider";
+
+export default async function Home() {
+  const session = await getServerSession(authOptions);
+  const tasks: taskData[] = await getAllTasks(session?.user.id ?? "");
+>>>>>>> After-Sign-In
 
 export default function Home() {
   return (
+<<<<<<< HEAD
     <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
       <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
         <Image
@@ -98,6 +112,15 @@ export default function Home() {
           Go to nextjs.org →
         </a>
       </footer>
+=======
+    <div className="grid place-items-center pt-4">
+      <AuthProvider>
+        <CreateTask />
+      </AuthProvider>
+      <hr />
+      {tasks.length === 0 && <p className="mt-5">No tasks!</p>}
+      {tasks.length !== 0 && <Task tasks={tasks} />}
+>>>>>>> After-Sign-In
     </div>
   );
 }

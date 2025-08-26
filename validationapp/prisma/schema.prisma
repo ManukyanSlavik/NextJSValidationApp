@@ -13,4 +13,17 @@ model User {
   email        String @unique
   name         String
   passwordHash String
+
+  tasks Task[]
+}
+
+model Task{
+  id String @id @default(cuid())
+  description String
+  isCompleted Boolean
+
+  userId String
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
 }

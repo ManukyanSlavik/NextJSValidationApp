@@ -1,8 +1,14 @@
 import prisma from "@/prisma/client";
-import NextAuth from "next-auth";
+import NextAuth, { Session, User } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
+<<<<<<< HEAD
 import { schema } from "../../users/schema";
+=======
+import { signInSchema } from "../../../schema";
+import { JWT } from "next-auth/jwt";
+import { AdapterUser } from "next-auth/adapters";
+>>>>>>> After-Sign-In
 
 export const authOptions = {
   providers: [
@@ -34,14 +40,28 @@ export const authOptions = {
       },
     }),
   ],
+<<<<<<< HEAD
+=======
+  callbacks: {
+    async jwt({ token, user }: { token: JWT; user?: User | AdapterUser }) {
+      if (user) token.id = ("id" in user ? user.id : undefined) ?? token.sub;
+      return token;
+    },
+
+    async session({ session, token }: { session: Session; token: JWT }) {
+      if (session.user) {
+        session.user.id =
+          (token as JWT & { id?: string }).id ?? (token.sub as string);
+      }
+      return session;
+    },
+  },
+  pages: {
+    signIn: "/pages/signin",
+  },
+>>>>>>> After-Sign-In
 };
 
 const handler = NextAuth(authOptions);
 
 export { handler as GET, handler as POST };
-
-// /api/auth/signin
-// /api/auth/signout
-// SessionProvider
-// const {status, session} = useSession()
-// await getServerSession(authOptions)
