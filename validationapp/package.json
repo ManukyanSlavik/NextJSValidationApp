@@ -10,8 +10,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "seed": "prisma db seed",
-    "start:migrate:dev": "prisma migrate deploy && seed && next dev"
+    "start:migrate:dev": "prisma migrate deploy && prisma db seed && next dev"
   },
   "dependencies": {
     "@heroicons/react": "^2.2.0",
