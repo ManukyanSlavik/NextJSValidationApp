@@ -10,8 +10,11 @@ services:
         - action: sync
           path: .
           target: /app
-    env_file:
-      - .env.docker
+    environment:
+      NODE_ENV: development
+      DATABASE_URL: mysql://root:root@db:3306/validationapp
+      NEXTAUTH_URL: http://localhost:3000
+      NEXTAUTH_SECRET: rzae0OT8qREGB58mRScZqZnMEzm7Kp43eKDq8BGVowc=
     depends_on:
       db:
         condition: service_healthy
