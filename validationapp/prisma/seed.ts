@@ -15,20 +15,6 @@ async function seed() {
       passwordHash,
     },
   });
-
-  const adminId = await prisma.user
-    .findUnique({ where: { email: "admin@test.com" } })
-    .then((u) => u?.id);
-
-  if (adminId) {
-    await prisma.task.create({
-      data: {
-        userId: adminId,
-        description: "Test task",
-        isCompleted: false,
-      },
-    });
-  }
 }
 
 seed()

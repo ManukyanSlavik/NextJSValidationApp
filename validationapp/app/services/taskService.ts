@@ -7,7 +7,7 @@ export const getAllTasks = async (userId: string) => {
 };
 
 export const createTask = async (userId: string, description: string) => {
-  await prisma.task.create({
+  return await prisma.task.create({
     data: {
       userId,
       description,
@@ -16,26 +16,26 @@ export const createTask = async (userId: string, description: string) => {
   });
 };
 
-export const updateTask = async (taskId: string, newDesc: string) => {
-  await prisma.task.update({
-    where: { id: taskId },
+export const updateTask = async (id: string, description: string) => {
+  return await prisma.task.update({
+    where: { id },
     data: {
-      description: newDesc,
+      description,
     },
   });
 };
 
-export const checkTask = async (taskId: string, isCompleted: boolean) => {
-  await prisma.task.update({
-    where: { id: taskId },
+export const checkTask = async (id: string, isCompleted: boolean) => {
+  return await prisma.task.update({
+    where: { id },
     data: {
       isCompleted,
     },
   });
 };
 
-export const deleteTask = async (taskId: string) => {
+export const deleteTask = async (id: string) => {
   await prisma.task.delete({
-    where: { id: taskId },
+    where: { id },
   });
 };
