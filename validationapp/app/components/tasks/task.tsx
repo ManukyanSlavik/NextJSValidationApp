@@ -2,15 +2,10 @@
 
 import { PencilSquareIcon, TrashIcon } from "@heroicons/react/24/outline";
 import React, { useOptimistic, useState } from "react";
-import { checkTask, deleteTask, updateTask } from "../services/taskService";
+import { checkTask, deleteTask, updateTask } from "../../services/taskService";
 import { useRouter } from "next/navigation";
 import { useTaskContext } from "./taskBoard";
-
-export interface taskData {
-  id: string;
-  description: string;
-  isCompleted: boolean;
-}
+import { taskData } from "./data";
 
 const Task = () => {
   const router = useRouter();
