@@ -1,77 +1,51 @@
 "use client";
 
-import React, { useState, useTransition } from "react";
+import React, { useState } from "react";
 import { useSession } from "next-auth/react";
 
 import { useTaskContext } from "./taskBoard";
 import { useForm } from "react-hook-form";
 import { tagData, taskData } from "./data";
-import { createTagAction } from "./actions/tagActions";
-import { createTaskAction } from "./actions/taskActions";
+import { XMarkIcon } from "@heroicons/react/24/outline";
 
 const CreateTask = () => {
+  const { newTask, newTag, tags, deleteTag } = useTaskContext();
   const {
-    setOptimisticTasks,
-    setTasks,
-    tasks,
-    setOptimisticTags,
-    setTags,
-    tags,
-  } = useTaskContext();
-  const { register, handleSubmit } = useForm<taskData>({ mode: "onChange" });
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<taskData>({ mode: "onChange" });
   const [selectedTags, setSelectedTags] = useState<tagData[]>([]);
-  const [newTag, setNewTag] = useState("");
+  const [newTagField, setNewTagField] = useState("");
+  const [tagErrors, setTagErrors] = useState<string>("");
 
-  const [isPending, startTransition] = useTransition();
   const { data: session } = useSession();
 
   const handleNewTag = async () => {
     if (session?.user.id) {
-      const tempId = `${Date.now()}`;
-      startTransition(() => {
-        setOptimisticTags({
-          type: "create",
-          data: {
-            id: tempId,
-            name: newTag,
-          },
-        });
-      });
+      setTagErrors("");
 
-      try {
-        const res: tagData = await createTagAction(newTag);
-        setTags([...tags, res]);
-      } catch {
-        setTags(tags.filter((t) => t.id !== tempId));
+      if (newTagField.trim() === "") {
+        setTagErrors("Tag name cannot be empty");
+        return;
       }
+      if (tags.some((t) => t.name === newTagField)) {
+        setTagErrors("Tag already exists");
+        return;
+      }
+
+      await newTag(newTagField);
+
+      setNewTagField("");
     }
   };
 
-  const handleNewTask = async (values: taskData) => {
-    if (session?.user.id) {
-      const tempId = `${Date.now()}`;
-      startTransition(() => {
-        setOptimisticTasks({
-          type: "create",
-          data: {
-            id: tempId,
-            name: values.name,
-            description: values.description,
-            isCompleted: false,
-            tags: selectedTags,
-          },
-        });
-      });
+  const handleTagDelete = async (id: string) => {
+    if (session?.user.id) await deleteTag(id);
+  };
 
-      try {
-        const res: taskData = await createTaskAction(
-          session?.user.id,
-          values.name,
-          values.description
-        );
-        setTasks([...tasks, res]);
-      } catch {}
-    }
+  const handleNewTask = async (values: taskData) => {
+    if (session?.user.id) await newTask(session?.user.id, values, selectedTags);
   };
 
   return (
@@ -92,8 +66,16 @@ const CreateTask = () => {
           aria-label="close sidebar"
           className="drawer-overlay"
         ></label>
-        <form className="menu bg-base-200 text-base-content min-h-full w-200 p-4">
+        <form className="menu bg-base-200 text-base-content min-h-full w-180 p-4">
           {/* Sidebar content here */}
+          <h1 className="text-3xl mb-10 mx-auto">Create a new Task</h1>
+
+          {errors.name && (
+            <p className="text-error mx-auto my-5 w-150">
+              {errors.name?.message}
+            </p>
+          )}
+
           <div className="form-control mx-auto mb-10 w-150">
             <input
               {...register("name", { required: "This field is required" })}
@@ -102,6 +84,12 @@ const CreateTask = () => {
               className="input input-bordered w-full"
             />
           </div>
+
+          {errors.description && (
+            <p className="text-error mx-auto my-5 w-150">
+              {errors.description?.message}
+            </p>
+          )}
 
           <div className="form-control mx-auto mb-10 w-150">
             <textarea
@@ -114,10 +102,18 @@ const CreateTask = () => {
           </div>
 
           <div className="form-control mx-auto mb-10 w-150">
-            <h1>Filters</h1>
+            <h1 className="text-xl mb-5">Tags</h1>
+
+            {tagErrors !== "" && (
+              <div className="mx-auto mb-5 w-150">
+                <p className="text-error text-sm">{tagErrors}</p>
+              </div>
+            )}
+
             <div className="flex mb-5">
               <input
-                onChange={(e) => setNewTag(e.target.value)}
+                onChange={(e) => setNewTagField(e.target.value)}
+                value={newTagField}
                 type="text"
                 placeholder="Tag's name"
                 className="input input-bordered w-full mr-1"
@@ -130,20 +126,39 @@ const CreateTask = () => {
                 New tag
               </button>
             </div>
-            <div className="flex flex-wrap">
+            <div className="flex flex-wrap gap-2">
+              {tags.length === 0 && (
+                <p className="mx-auto text-gray-400">Add some tags!</p>
+              )}
               {tags.map((t) => (
-                <label className="label mx-2" key={t.id}>
-                  <input
-                    type="checkbox"
-                    className="checkbox"
-                    onChange={(e) => {
-                      if (e.target.checked)
-                        setSelectedTags([...tags, t as tagData]);
-                      else
-                        setSelectedTags(tags.filter((tag) => tag.id !== t.id));
-                    }}
-                  />
-                  {t.name}
+                <label
+                  className="label mx-2 flex justify-between bg-gray-800 rounded-4xl px-3 py-3"
+                  key={t.id}
+                >
+                  <div>
+                    <input
+                      type="checkbox"
+                      className="checkbox checkbox-primary mr-2"
+                      onChange={(e) => {
+                        if (e.target.checked)
+                          setSelectedTags([...tags, t as tagData]);
+                        else
+                          setSelectedTags(
+                            tags.filter((tag) => tag.id !== t.id)
+                          );
+                      }}
+                    />
+                    {t.name}
+                  </div>
+                  <div>
+                    <button
+                      type="button"
+                      className="bg-transparent px-2 py-1.5 ml-4 cursor-pointer"
+                      onClick={() => handleTagDelete(t.id)}
+                    >
+                      <XMarkIcon className="h-4 w-4 text-red-500" />
+                    </button>
+                  </div>
                 </label>
               ))}
             </div>

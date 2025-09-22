@@ -1,7 +1,7 @@
 "use client";
 
 import { PencilSquareIcon, TrashIcon } from "@heroicons/react/24/outline";
-import React, { useOptimistic, useState } from "react";
+import React, { useState } from "react";
 import { checkTask, deleteTask, updateTask } from "../../services/taskService";
 import { useRouter } from "next/navigation";
 import { useTaskContext } from "./taskBoard";
@@ -11,7 +11,7 @@ const Task = () => {
   const router = useRouter();
   const [editingId, setEditingId] = useState<string | null>(null);
   const [editValue, setEditValue] = useState("");
-  const { setOptimisticTasks, setTasks, tasks } = useTaskContext();
+  const { tasks } = useTaskContext();
 
   const startEditing = (task: taskData) => {
     setEditingId(task.id);

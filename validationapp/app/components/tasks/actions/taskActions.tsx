@@ -5,7 +5,11 @@ import {
   updateTask,
 } from "@/app/services/taskService";
 
-export const createTaskAction = async (userId: string, name: string, description: string) => {
+export const createTaskAction = async (
+  userId: string,
+  name: string,
+  description: string
+) => {
   return await createTask(userId, name, description);
 };
 
