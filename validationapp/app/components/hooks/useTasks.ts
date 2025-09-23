@@ -41,14 +41,19 @@ export const useTasks = (initial: taskData[]) => {
         type: "create",
         data: t,
       });
+
+      console.log("Fake task: " + `${t.id} ::: ${t.name}`);
     });
 
     try {
       const res: taskData = await createTaskAction(
         userId,
         values.name,
-        values.description
+        values.description,
+        selectedTags
       );
+      console.log("Real task: " + `${res.id} ::: ${res.name}`);
+
       setTasks([...tasks, res]);
     } catch {
       startTransition(() => {

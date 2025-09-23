@@ -1,16 +1,20 @@
 import {
+  addTagsToTask,
   checkTask,
   createTask,
   deleteTask,
   updateTask,
 } from "@/app/services/taskService";
+import { tagData, taskData } from "../data";
 
 export const createTaskAction = async (
   userId: string,
   name: string,
-  description: string
+  description: string,
+  selectedTags: tagData[]
 ) => {
-  return await createTask(userId, name, description);
+  const res: taskData = await createTask(userId, name, description);
+  return await addTagsToTask(res.id, selectedTags.map(t => t.id));
 };
 
 export const updateTaskAction = async (

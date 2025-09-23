@@ -54,9 +54,8 @@ const TaskBoard = ({ tasks: initialTasks, tags: initialTags }: Props) => {
         <AuthProvider>
           <CreateTask />
         </AuthProvider>
-        <hr />
-        {optimisticTasks.length === 0 && <p className="mt-5">No tasks!</p>}
-        {optimisticTasks.length !== 0 && <Task />}
+
+        <Task />
       </TaskContext.Provider>
     </div>
   );

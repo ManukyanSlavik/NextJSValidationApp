@@ -13,10 +13,12 @@ const CreateTask = () => {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm<taskData>({ mode: "onChange" });
   const [selectedTags, setSelectedTags] = useState<tagData[]>([]);
   const [newTagField, setNewTagField] = useState("");
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [tagErrors, setTagErrors] = useState<string>("");
 
   const { data: session } = useSession();
@@ -45,15 +47,28 @@ const CreateTask = () => {
   };
 
   const handleNewTask = async (values: taskData) => {
-    if (session?.user.id) await newTask(session?.user.id, values, selectedTags);
+    if (session?.user.id) {
+      await newTask(session?.user.id, values, selectedTags);
+
+      reset();
+      setSelectedTags([]);
+      setIsDrawerOpen(false);
+    }
   };
 
   return (
     <div className="drawer drawer-end">
-      <input id="my-drawer-4" type="checkbox" className="drawer-toggle" />
+      <input
+        id="my-drawer-4"
+        type="checkbox"
+        checked={isDrawerOpen}
+        onChange={(e) => setIsDrawerOpen(e.target.checked)}
+        className="drawer-toggle"
+      />
       <div className="drawer-content mx-auto">
         {/* Page content here */}
         <label
+          onChange={() => setIsDrawerOpen(true)}
           htmlFor="my-drawer-4"
           className="drawer-button btn btn-primary mt-5"
         >
@@ -139,12 +154,17 @@ const CreateTask = () => {
                     <input
                       type="checkbox"
                       className="checkbox checkbox-primary mr-2"
+                      checked={selectedTags.some((tag) => tag.id === t.id)}
                       onChange={(e) => {
                         if (e.target.checked)
-                          setSelectedTags([...tags, t as tagData]);
+                          setSelectedTags((prev) =>
+                            prev.some((x) => x.id === t.id)
+                              ? prev
+                              : [...prev, t as tagData]
+                          );
                         else
-                          setSelectedTags(
-                            tags.filter((tag) => tag.id !== t.id)
+                          setSelectedTags((prev) =>
+                            prev.filter((x) => x.id !== t.id)
                           );
                       }}
                     />

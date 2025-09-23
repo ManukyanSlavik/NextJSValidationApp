@@ -34,10 +34,14 @@ export const useTags = (initial: tagData[]) => {
         type: "create",
         data: t,
       });
+
+      console.log("Fake: " + `${t.id} ::: ${t.name}`);
     });
 
     try {
       const res: tagData = await createTagAction(name);
+      console.log("Real: " + `${res.id} ::: ${res.name}`);
+
       setTags([...tags, res]);
     } catch {
       startTransition(() => {
