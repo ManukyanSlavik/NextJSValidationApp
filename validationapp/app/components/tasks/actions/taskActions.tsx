@@ -14,14 +14,24 @@ export const createTaskAction = async (
   selectedTags: tagData[]
 ) => {
   const res: taskData = await createTask(userId, name, description);
-  return await addTagsToTask(res.id, selectedTags.map(t => t.id));
+  return await addTagsToTask(
+    res.id,
+    selectedTags.map((t) => t.id)
+  );
+};
+
+export const attachTagAction = async (taskId: string, tagId: string) => {
+  return await addTagsToTask(taskId, [tagId]);
 };
 
 export const updateTaskAction = async (
-  taskId: string,
-  newDescription: string
+  values: taskData,
+  selectedTags: tagData[]
 ) => {
-  return await updateTask(taskId, newDescription);
+  return await updateTask(
+    values,
+    selectedTags.map((t) => t.id)
+  );
 };
 
 export const checkTaskAction = async (taskId: string, isCompleted: boolean) => {

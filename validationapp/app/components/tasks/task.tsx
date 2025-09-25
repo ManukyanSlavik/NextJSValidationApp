@@ -1,11 +1,15 @@
 "use client";
 
 import { PencilSquareIcon, TrashIcon } from "@heroicons/react/24/outline";
-import React from "react";
+import React, { useState } from "react";
 import { useTaskContext } from "./taskBoard";
+import UpdateTaskForm from "./forms/updateTaskForm";
+import { taskData } from "./data";
 
 const Task = () => {
   const { tasks } = useTaskContext();
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [selectedTask, setSelectedTask] = useState<taskData | null>(null);
 
   return (
     <div className="mx-auto w-400 mt-10 overflow-x-auto rounded-box border border-gray-700">
@@ -40,10 +44,18 @@ const Task = () => {
                 ))}
               </td>
               <td>
-                <button type="button" className="btn bg-amber-50">
+                <button
+                  type="button"
+                  className="drawer-button btn bg-amber-50"
+                  onClick={() => {
+                    setSelectedTask(t);
+                    setIsDrawerOpen(true);
+                  }}
+                >
                   <PencilSquareIcon className="text-rose-500 w-4 h-4" />
                 </button>
               </td>
+
               <td>
                 <button type="button" className="btn bg-rose-500">
                   <TrashIcon className="text-amber-50 w-4 h-4" />
@@ -53,6 +65,31 @@ const Task = () => {
           ))}
         </tbody>
       </table>
+
+      <div className="drawer drawer-end">
+        <input
+          id="editTaskDrawer"
+          type="checkbox"
+          className="drawer-toggle"
+          checked={isDrawerOpen}
+          onChange={(e) => setIsDrawerOpen(e.target.checked)}
+        />
+        <div className="drawer-content mx-auto" />
+        <div className="drawer-side">
+          <label
+            htmlFor="editTaskDrawer"
+            aria-label="close sidebar"
+            className="drawer-overlay"
+            onClick={() => setIsDrawerOpen(false)}
+          />
+          {selectedTask && (
+            <UpdateTaskForm
+              task={selectedTask}
+              setIsDrawerOpen={setIsDrawerOpen}
+            />
+          )}
+        </div>
+      </div>
     </div>
   );
 };

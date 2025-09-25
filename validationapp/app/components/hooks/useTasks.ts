@@ -1,6 +1,7 @@
 import { useOptimistic, useState, useTransition } from "react";
 import { tagData, taskData, taskPayload } from "../tasks/data";
 import { createTaskAction } from "../tasks/actions/taskActions";
+import { updateTask } from "@/app/services/taskService";
 
 export const useTasks = (initial: taskData[]) => {
   const [tasks, setTasks] = useState<taskData[]>(initial);
@@ -18,6 +19,10 @@ export const useTasks = (initial: taskData[]) => {
         return current.filter((t) => t.id !== operation.data.id);
       if (operation.type === "rollback")
         return current.filter((t) => t.id !== operation.data.id);
+      if (operation.type === "rollback-update")
+        return current.map((t) =>
+          t.id === operation.data.id ? operation.data : t
+        );
 
       throw new Error("Invalid operation");
     }
@@ -41,8 +46,6 @@ export const useTasks = (initial: taskData[]) => {
         type: "create",
         data: t,
       });
-
-      console.log("Fake task: " + `${t.id} ::: ${t.name}`);
     });
 
     try {
@@ -52,7 +55,6 @@ export const useTasks = (initial: taskData[]) => {
         values.description,
         selectedTags
       );
-      console.log("Real task: " + `${res.id} ::: ${res.name}`);
 
       setTasks([...tasks, res]);
     } catch {
@@ -65,5 +67,29 @@ export const useTasks = (initial: taskData[]) => {
     }
   };
 
-  return { optimisticTasks, newTask, isPending: isTaskPending };
+  const editTask = async (values: taskData, selectedTags: tagData[]) => {
+    startTransition(() => {
+      setOptimisticTasks({
+        type: "update",
+        data: values,
+      });
+    });
+
+    try {
+      const res = await updateTask(
+        values,
+        selectedTags.map((t) => t.id)
+      );
+      setTasks((curr) => curr.map((t) => (t.id === res.id ? res : t)));
+    } catch {
+      startTransition(() => {
+        setOptimisticTasks({
+          type: "rollback",
+          data: values,
+        });
+      });
+    }
+  };
+
+  return { optimisticTasks, newTask, editTask, isPending: isTaskPending };
 };

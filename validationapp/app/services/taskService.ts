@@ -1,9 +1,15 @@
 "use server";
 
 import prisma from "@/prisma/client";
+import { tagData, taskData } from "../components/tasks/data";
 
 export const getAllTasks = async (userId: string) => {
-  return await prisma.task.findMany({ where: { userId } });
+  return await prisma.task.findMany({
+    where: { userId },
+    include: {
+      tags: true,
+    },
+  });
 };
 
 export const createTask = async (
@@ -22,7 +28,7 @@ export const createTask = async (
 };
 
 export const addTagsToTask = async (taskId: string, tagIds: string[]) => {
-  return await prisma.task.update({
+  const res: taskData = await prisma.task.update({
     where: { id: taskId },
     data: {
       tags: { connect: tagIds.map((id) => ({ id })) },
@@ -31,6 +37,8 @@ export const addTagsToTask = async (taskId: string, tagIds: string[]) => {
       tags: true,
     },
   });
+
+  return res;
 };
 
 export async function createTagAndAttach(taskId: string, name: string) {
@@ -45,12 +53,18 @@ export async function createTagAndAttach(taskId: string, name: string) {
   });
 }
 
-export const updateTask = async (id: string, description: string) => {
+export const updateTask = async (values: taskData, tagIds: string[]) => {
   return await prisma.task.update({
-    where: { id },
+    where: { id: values.id },
     data: {
-      description,
+      name: values.name,
+      description: values.description,
+      isCompleted: values.isCompleted,
+      tags: {
+        set: tagIds.map((id) => ({ id })),
+      },
     },
+    include: { tags: true },
   });
 };
 

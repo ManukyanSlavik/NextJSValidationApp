@@ -1,6 +1,7 @@
 import { useOptimistic, useState, useTransition } from "react";
 import { tagData, tagPayload } from "../tasks/data";
 import { createTagAction, deleteTagAction } from "../tasks/actions/tagActions";
+import { attachTagAction } from "../tasks/actions/taskActions";
 
 export const useTags = (initial: tagData[]) => {
   const [tags, setTags] = useState(initial);
@@ -34,15 +35,40 @@ export const useTags = (initial: tagData[]) => {
         type: "create",
         data: t,
       });
-
-      console.log("Fake: " + `${t.id} ::: ${t.name}`);
     });
 
     try {
       const res: tagData = await createTagAction(name);
-      console.log("Real: " + `${res.id} ::: ${res.name}`);
 
       setTags([...tags, res]);
+    } catch {
+      startTransition(() => {
+        setOptimisticTags({
+          type: "rollback",
+          data: t,
+        });
+      });
+    }
+  };
+
+  const newTagAndAttach = async (name: string, taskId: string) => {
+    const t = {
+      id: `${Date.now()}`,
+      name,
+    };
+
+    startTransition(() => {
+      setOptimisticTags({
+        type: "create",
+        data: t,
+      });
+    });
+
+    try {
+      const res: tagData = await createTagAction(name);
+      setTags([...tags, res]);
+
+      await attachTagAction(name, taskId);
     } catch {
       startTransition(() => {
         setOptimisticTags({
@@ -70,5 +96,5 @@ export const useTags = (initial: tagData[]) => {
     } catch {}
   };
 
-  return { optimisticTags, newTag, deleteTag, isPending: isTagPending };
+  return { optimisticTags, newTag, deleteTag, newTagAndAttach, isPending: isTagPending };
 };
