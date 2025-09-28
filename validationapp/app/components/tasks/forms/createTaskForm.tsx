@@ -1,15 +1,15 @@
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import React, { useState } from "react";
 import { tagData, taskData } from "../data";
-import { useTagContext, useTaskContext } from "../taskBoard";
 import { useForm } from "react-hook-form";
 import { useSession } from "next-auth/react";
+import { useTagContext, useTaskContext } from "../../context";
 
 interface Props {
-  setIsDrawerOpen: (value: boolean) => void;
+  closeDrawer: () => void;
 }
 
-const CreateTaskForm = ({ setIsDrawerOpen }: Props) => {
+const CreateTaskForm = ({ closeDrawer }: Props) => {
   const { newTask } = useTaskContext();
   const { newTag, tags, deleteTag } = useTagContext();
   const {
@@ -53,7 +53,7 @@ const CreateTaskForm = ({ setIsDrawerOpen }: Props) => {
 
       reset();
       setSelectedTags([]);
-      setIsDrawerOpen(false);
+      closeDrawer();
     }
   };
 

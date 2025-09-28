@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { tagData, taskData } from "../data";
 import { useForm } from "react-hook-form";
-import { useTagContext, useTaskContext } from "../taskBoard";
 import { useSession } from "next-auth/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
+import { useTagContext, useTaskContext } from "../../context";
 
 interface Props {
-  setIsDrawerOpen: (value: boolean) => void;
+  closeDrawer: () => void;
   task: taskData;
 }
 
-const UpdateTaskForm = ({ task, setIsDrawerOpen }: Props) => {
+const UpdateTaskForm = ({ task, closeDrawer }: Props) => {
   const {
     register,
     handleSubmit,
@@ -22,7 +22,7 @@ const UpdateTaskForm = ({ task, setIsDrawerOpen }: Props) => {
   const { data: session } = useSession();
   const [selectedTags, setSelectedTags] = useState<tagData[]>(task.tags ?? []);
   const [newTagField, setNewTagField] = useState("");
-  const [tagErrors, setTagErrors] = useState<string>("");
+  const [tagErrors, setTagErrors] = useState<string>(""); // TODO: Move tags into a separate reusable component.
 
   useEffect(() => {
     setSelectedTags(task.tags ?? []);
@@ -61,7 +61,7 @@ const UpdateTaskForm = ({ task, setIsDrawerOpen }: Props) => {
 
       reset();
       setSelectedTags([]);
-      setIsDrawerOpen(false);
+      closeDrawer();
     }
   };
 
@@ -171,13 +171,13 @@ const UpdateTaskForm = ({ task, setIsDrawerOpen }: Props) => {
         >
           Submit
         </button>
-        <button
+        {/* <button
           onClick={() => setIsDrawerOpen(false)}
           type="button"
           className="btn btn-warning"
         >
           Cancel
-        </button>
+        </button> */}
       </div>
     </form>
   );
