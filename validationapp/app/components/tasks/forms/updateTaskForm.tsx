@@ -22,7 +22,7 @@ const UpdateTaskForm = ({ task, closeDrawer }: Props) => {
   const { data: session } = useSession();
   const [selectedTags, setSelectedTags] = useState<tagData[]>(task.tags ?? []);
   const [newTagField, setNewTagField] = useState("");
-  const [tagErrors, setTagErrors] = useState<string>(""); // TODO: Move tags into a separate reusable component.
+  const [tagErrors, setTagErrors] = useState<string>("");
 
   useEffect(() => {
     setSelectedTags(task.tags ?? []);
@@ -56,8 +56,12 @@ const UpdateTaskForm = ({ task, closeDrawer }: Props) => {
   };
 
   const handleTaskUpdate = async (values: taskData) => {
+    const filteredTags = selectedTags.filter((t) =>
+      tags.some((i) => t.id === i.id)
+    );
+
     if (session?.user.id) {
-      await editTask(values, selectedTags);
+      await editTask(values, filteredTags);
 
       reset();
       setSelectedTags([]);
@@ -153,7 +157,7 @@ const UpdateTaskForm = ({ task, closeDrawer }: Props) => {
                 <button
                   type="button"
                   className="bg-transparent px-2 py-1.5 ml-4 cursor-pointer"
-                  onClick={() => handleTagDelete}
+                  onClick={() => handleTagDelete(t.id)}
                 >
                   <XMarkIcon className="h-4 w-4 text-red-500" />
                 </button>
@@ -171,13 +175,6 @@ const UpdateTaskForm = ({ task, closeDrawer }: Props) => {
         >
           Submit
         </button>
-        {/* <button
-          onClick={() => setIsDrawerOpen(false)}
-          type="button"
-          className="btn btn-warning"
-        >
-          Cancel
-        </button> */}
       </div>
     </form>
   );

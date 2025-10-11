@@ -14,6 +14,7 @@ export interface tagData {
 
 export interface taskPayload {
   type: string;
+  index: number;
   data: taskData;
 }
 

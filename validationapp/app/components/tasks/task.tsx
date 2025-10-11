@@ -4,14 +4,15 @@ import { PencilSquareIcon, TrashIcon } from "@heroicons/react/24/outline";
 import React, { useState } from "react";
 
 import { taskData } from "./data";
-import { useTaskContext } from "../context";
+import { useTagContext, useTaskContext } from "../context";
 
 interface Props {
   onEdit: (data: taskData) => void;
 }
 
 const Task = ({ onEdit }: Props) => {
-  const { tasks } = useTaskContext();
+  const { tasks, removeTask } = useTaskContext();
+  const { tags } = useTagContext();
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   return (
@@ -38,7 +39,7 @@ const Task = ({ onEdit }: Props) => {
               </tr>
             </thead>
             <tbody>
-              {tasks.map((t) => (
+              {tasks.map((t, index) => (
                 <tr key={t.id} className="divide-x divide-gray-700">
                   <td>
                     <input
@@ -49,16 +50,20 @@ const Task = ({ onEdit }: Props) => {
                   </td>
                   <td>{t.name}</td>
                   <td>{t.description}</td>
-                  <td>
-                    <div className="flex flex-wrap gap-2 py-2">
-                      {t.tags?.map((i) => (
-                        <div
-                          key={i.id}
-                          className="bg-gray-800 rounded-xl px-3 py-1"
-                        >
-                          {i.name}
-                        </div>
-                      ))}
+                  <td className="max-w-28">
+                    <div className="flex justify-center flex-wrap gap-2">
+                      {tags
+                        .filter((tag) =>
+                          t.tags?.some((attached) => attached.id === tag.id)
+                        )
+                        .map((tag) => (
+                          <div
+                            key={tag.id}
+                            className="bg-gray-800 rounded-xl px-3 py-1"
+                          >
+                            {tag.name}
+                          </div>
+                        ))}
                     </div>
                   </td>
                   <td>
@@ -74,7 +79,13 @@ const Task = ({ onEdit }: Props) => {
                   </td>
 
                   <td>
-                    <button type="button" className="btn bg-rose-500">
+                    <button
+                      type="button"
+                      className="btn bg-rose-500"
+                      onClick={() => {
+                        removeTask(t, index);
+                      }}
+                    >
                       <TrashIcon className="text-amber-50 w-4 h-4" />
                     </button>
                   </td>

@@ -1,7 +1,7 @@
 "use server";
 
 import prisma from "@/prisma/client";
-import { tagData, taskData } from "../components/tasks/data";
+import { taskData } from "../components/tasks/data";
 
 export const getAllTasks = async (userId: string) => {
   return await prisma.task.findMany({
@@ -86,7 +86,7 @@ export const checkTask = async (id: string, isCompleted: boolean) => {
 };
 
 export const deleteTask = async (id: string) => {
-  await prisma.task.delete({
-    where: { id },
+  return await prisma.task.delete({
+    where: { id }
   });
 };

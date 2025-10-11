@@ -1,16 +1,11 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Instrument_Sans } from "next/font/google";
 import "./globals.css";
-import Navbar from "./components/navbar";
-import AuthProvider from "./api/auth/AuthProvider";
+import i18n from "@/public/utils/i18n";
+import I18nProvider from "./i18n-provider";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const instrumentSans = Instrument_Sans({
+  variable: "--font-instrument-sans",
   subsets: ["latin"],
 });
 
@@ -25,16 +20,28 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        <header>
-          <AuthProvider>
-            <Navbar></Navbar>
-          </AuthProvider>
-        </header>
-        {children}
+    <html lang="en" data-theme="dark">
+      <body className={`${instrumentSans.variable} antialiased`}>
+        <I18nProvider>
+          <section className="relative isolate bg-neutral-950">
+            <div className="pointer-events-none absolute left-0 top-0 z-1 h-[28vmin] w-[28vmin] bg-base-300 [clip-path:polygon(0_0,100%_0,0_100%)]"></div>
+
+            <div className="pointer-events-none absolute right-0 top-[360px] z-1 h-[28vmin] w-[28vmin] bg-base-300 [clip-path:polygon(100%_100%,0_100%,100%_0)]"></div>
+          </section>
+          <header className="flex justify-between p-5">
+            <h2 className="text-2xl font-semibold z-2 text-base-100">
+              SCTasks
+            </h2>
+            <div className="z-2">
+              <button className="link link-hover text-base-300 pr-1">
+                ENG
+              </button>
+              /
+              <button className="link link-hover text-base-300 pl-1">DE</button>
+            </div>
+          </header>
+          {children}
+        </I18nProvider>
       </body>
     </html>
   );

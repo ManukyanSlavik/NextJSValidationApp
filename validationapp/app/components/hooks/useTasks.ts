@@ -1,6 +1,9 @@
 import { useOptimistic, useState, useTransition } from "react";
 import { tagData, taskData, taskPayload } from "../tasks/data";
-import { createTaskAction } from "../tasks/actions/taskActions";
+import {
+  createTaskAction,
+  deleteTaskAction,
+} from "../tasks/actions/taskActions";
 import { updateTask } from "@/app/services/taskService";
 
 export const useTasks = (initial: taskData[]) => {
@@ -23,6 +26,13 @@ export const useTasks = (initial: taskData[]) => {
         return current.map((t) =>
           t.id === operation.data.id ? operation.data : t
         );
+      if (operation.type === "rollback-delete") {
+        return [
+          ...current.slice(0, operation.index),
+          operation.data,
+          ...current.slice(operation.index),
+        ];
+      }
 
       throw new Error("Invalid operation");
     }
@@ -45,6 +55,7 @@ export const useTasks = (initial: taskData[]) => {
       setOptimisticTasks({
         type: "create",
         data: t,
+        index: -1,
       });
     });
 
@@ -62,6 +73,7 @@ export const useTasks = (initial: taskData[]) => {
         setOptimisticTasks({
           type: "rollback",
           data: t,
+          index: -1,
         });
       });
     }
@@ -72,6 +84,7 @@ export const useTasks = (initial: taskData[]) => {
       setOptimisticTasks({
         type: "update",
         data: values,
+        index: -1,
       });
     });
 
@@ -84,12 +97,42 @@ export const useTasks = (initial: taskData[]) => {
     } catch {
       startTransition(() => {
         setOptimisticTasks({
-          type: "rollback",
+          type: "rollback-update",
           data: values,
+          index: -1,
         });
       });
     }
   };
 
-  return { optimisticTasks, newTask, editTask, isPending: isTaskPending };
+  const removeTask = async (values: taskData, index: number) => {
+    startTransition(() => {
+      setOptimisticTasks({
+        type: "delete",
+        data: values,
+        index,
+      });
+    });
+
+    try {
+      const res = await deleteTaskAction(values.id);
+      setTasks((curr) => curr.filter((task) => task.id !== res.id));
+    } catch {
+      startTransition(() => {
+        setOptimisticTasks({
+          type: "rollback-delete",
+          data: values,
+          index,
+        });
+      });
+    }
+  };
+
+  return {
+    optimisticTasks,
+    newTask,
+    editTask,
+    removeTask,
+    isPending: isTaskPending,
+  };
 };

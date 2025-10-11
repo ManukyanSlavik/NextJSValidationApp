@@ -21,7 +21,7 @@ interface Props {
 }
 
 const TaskBoard = ({ tasks: initialTasks, tags: initialTags }: Props) => {
-  const { optimisticTasks, newTask, editTask } = useTasks(initialTasks);
+  const { optimisticTasks, newTask, editTask, removeTask } = useTasks(initialTasks);
   const { optimisticTags, newTag, newTagAndAttach, deleteTag } =
     useTags(initialTags);
 
@@ -39,6 +39,7 @@ const TaskBoard = ({ tasks: initialTasks, tags: initialTags }: Props) => {
       value={{
         newTask,
         editTask,
+        removeTask,
         tasks: optimisticTasks,
       }}
     >

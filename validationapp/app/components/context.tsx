@@ -8,6 +8,7 @@ type TaskContextData = {
     selectedTags: tagData[]
   ) => Promise<void>;
   editTask: (values: taskData, selectedTags: tagData[]) => Promise<void>;
+  removeTask: (values: taskData, index: number) => Promise<void>,
   tasks: taskData[];
 };
 
