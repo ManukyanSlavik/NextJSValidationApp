@@ -1,10 +1,22 @@
-import { getServerSession } from "next-auth";
-import { authOptions } from "./api/auth/[...nextauth]/route";
-import { getAllTasks } from "./services/taskService";
-import TaskBoard from "./components/tasks/taskBoard";
-import { getAllTags } from "./services/tagService";
-import { tagData, taskData } from "./components/tasks/data";
+"use client";
 
-export default async function Home() {
-  return <></>;
+import { useTranslation } from "react-i18next";
+
+export default function Home() {
+  const { t } = useTranslation("landing");
+
+  return (
+    <body>
+      <div className="z-10">
+        <h1 className="text-[56px] text-primary-content text-center font-bold mt-10">
+          {t("title")}
+        </h1>
+        <div className="w-[700px] mx-auto">
+          <h2 className="text-[24px] text-secondary  font-bold text-center mt-5">
+            {t("subTitle")}
+          </h2>
+        </div>
+      </div>
+    </body>
+  );
 }
