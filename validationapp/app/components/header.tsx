@@ -1,6 +1,5 @@
 "use client";
 
-import { ThemeSwitcherIcon } from "@/public/icons";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import ThemeSwitcher from "./themeSwitcher";
@@ -16,7 +15,7 @@ const Header = () => {
     <header className="flex justify-between p-5">
       <h2 className="text-2xl font-semibold z-2 text-base-100">SCTasks</h2>
 
-      <div className="flex justify-between z-2">
+      <div className="flex items-center justify-between z-2">
         <div className="pr-3">
           <button
             onClick={() => {

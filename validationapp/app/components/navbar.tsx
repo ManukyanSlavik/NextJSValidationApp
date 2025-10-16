@@ -14,6 +14,27 @@ const Navbar = () => {
           SCTasks
         </Link>{" "}
       </div>
+      {status === "unauthenticated" && (
+        <>
+          <div className="navbar-end">
+            <Link href="/pages/register" className="btn mr-1">
+              Sign up
+            </Link>
+            <Link href="/pages/signin" className="btn mr-1">
+              Sign in
+            </Link>
+          </div>
+        </>
+      )}
+      {status === "authenticated" && (
+        <>
+          <div className="navbar-end">
+            <Link href="/api/auth/signout" className="btn mr-1">
+              Sign out
+            </Link>
+          </div>
+        </>
+      )}
     </div>
   );
 };

@@ -1,22 +1,59 @@
 "use client";
 
+import { ExternalLink } from "@/public/icons";
 import { useTranslation } from "react-i18next";
+import Header from "./components/header";
 
 export default function Home() {
   const { t } = useTranslation("landing");
 
   return (
-    <body>
+    <>
+      <section className="relative isolate bg-neutral-950">
+        <div className="pointer-events-none absolute left-0 top-0 z-1 h-[28vmin] w-[28vmin] bg-base-300 [clip-path:polygon(0_0,100%_0,0_100%)]"></div>
+
+        <div className="pointer-events-none absolute right-0 top-[360px] z-1 h-[28vmin] w-[28vmin] bg-base-300 [clip-path:polygon(100%_100%,0_100%,100%_0)]"></div>
+      </section>
+      <Header />
       <div className="z-10">
         <h1 className="text-[56px] text-primary-content text-center font-bold mt-10">
           {t("title")}
         </h1>
-        <div className="w-[700px] mx-auto">
-          <h2 className="text-[24px] text-secondary  font-bold text-center mt-5">
+        <div className="w-fit mx-auto">
+          <h2 className="text-[24px] text-secondary font-bold text-center mt-5">
             {t("subTitle")}
           </h2>
         </div>
+
+        <div className="pt-20">
+          <div className="w-fit mx-auto">
+            <div className="flex items-center gap-4">
+              <button className="btn btn-primary text-primary-content font-bold">
+                {t("tryDemo")}
+              </button>
+
+              <span className="text-primary-content text-lg font-bold select-none">
+                {t("or")}
+              </span>
+
+              <button className="btn btn-neutral text-primary-content font-bold">
+                {t("signUp")}
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div className="pt-10 w-fit mx-auto">
+          <a
+            href="https://github.com/ManukyanSlavik/NextJSValidationApp"
+            target="_blank"
+            className="flex items-center link link-primary font-bold underline"
+          >
+            {t("visitGithub")}
+            <ExternalLink fontSize={18} className="translate-y-[-3px]" />
+          </a>
+        </div>
       </div>
-    </body>
+    </>
   );
 }
