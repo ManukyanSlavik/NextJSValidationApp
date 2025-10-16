@@ -36,7 +36,7 @@ const SignIn = () => {
       return;
     }
 
-    router.push("/");
+    router.push("/dashboard");
   }
 
   return (

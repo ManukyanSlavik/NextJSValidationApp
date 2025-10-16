@@ -1,15 +1,25 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import ThemeSwitcher from "./themeSwitcher";
 
+type Lang = "en" | "de";
+
 const Header = () => {
   const { i18n } = useTranslation();
+  const [lang, setLang] = useState<Lang>("en");
 
-  const lang = i18n.resolvedLanguage || i18n.language || "en";
-  const isEng = lang.startsWith("en");
-  const isDeu = lang.startsWith("de");
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    // localStorage.setItem("lang", lang);
+    i18n.changeLanguage(lang);
+  }, [lang, i18n]);
+
+  const setAndSaveLang = (lang: string) => {
+    setLang(lang as Lang);
+    localStorage.setItem("lang", lang);
+  }
 
   return (
     <header className="flex justify-between p-5">
@@ -19,11 +29,10 @@ const Header = () => {
         <div className="pr-3">
           <button
             onClick={() => {
-              i18n.changeLanguage("en");
-              console.log(document.documentElement.lang);
+              setAndSaveLang("en")
             }}
             className={`link link-hover ${
-              isEng ? `text-primary` : `text-base-300`
+              lang === "en" ? `text-primary` : `text-base-300`
             } pr-1`}
           >
             ENG
@@ -31,11 +40,10 @@ const Header = () => {
           <span className="text-primary-content">/</span>
           <button
             onClick={() => {
-              i18n.changeLanguage("de");
-              console.log(document.documentElement.lang);
+              setAndSaveLang("de")
             }}
             className={`link link-hover ${
-              isDeu ? `text-primary` : `text-base-300`
+              lang === "de" ? `text-primary` : `text-base-300`
             } text-base-300 pr-1`}
           >
             DE

@@ -3,6 +3,23 @@
 import { ExternalLink } from "@/public/icons";
 import { useTranslation } from "react-i18next";
 import Header from "./components/header";
+import { motion, stagger } from "framer-motion";
+
+const container = {
+  hidden: { opacity: 0 },
+  show: {
+    opacity: 1,
+    transition: {
+      when: "beforeChildren",
+      staggerChildren: 0.3
+    },
+  },
+}
+
+const item = {
+  hidden: { opacity: 0, y: 20 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.6 } },
+};
 
 export default function Home() {
   const { t } = useTranslation("landing");
@@ -15,19 +32,19 @@ export default function Home() {
         <div className="pointer-events-none absolute right-0 top-[360px] z-1 h-[28vmin] w-[28vmin] bg-base-300 [clip-path:polygon(100%_100%,0_100%,100%_0)]"></div>
       </section>
       <Header />
-      <div className="z-10">
-        <h1 className="text-[56px] text-primary-content text-center font-bold mt-10">
-          {t("title")}
-        </h1>
-        <div className="w-fit mx-auto">
-          <h2 className="text-[24px] text-secondary font-bold text-center mt-5">
+      <motion.div variants={container} initial="hidden" animate="show" className="z-10">
+        <div>
+          <motion.h1 variants={item} className="text-[56px] text-primary-content text-center font-bold mt-10">
+            {t("title")}
+          </motion.h1>
+          <motion.h2 variants={item} className="text-[24px] text-secondary font-bold text-center mt-5">
             {t("subTitle")}
-          </h2>
+          </motion.h2>
         </div>
 
         <div className="pt-20">
           <div className="w-fit mx-auto">
-            <div className="flex items-center gap-4">
+            <motion.div variants={item} className="flex items-center gap-4">
               <button className="btn btn-primary text-primary-content font-bold">
                 {t("tryDemo")}
               </button>
@@ -36,14 +53,14 @@ export default function Home() {
                 {t("or")}
               </span>
 
-              <button className="btn btn-neutral text-primary-content font-bold">
+              <a href="/signin" className="btn btn-neutral text-primary-content font-bold">
                 {t("signUp")}
-              </button>
-            </div>
+              </a>
+            </motion.div>
           </div>
         </div>
 
-        <div className="pt-10 w-fit mx-auto">
+        <motion.div variants={item} className="pt-10 w-fit mx-auto">
           <a
             href="https://github.com/ManukyanSlavik/NextJSValidationApp"
             target="_blank"
@@ -52,7 +69,11 @@ export default function Home() {
             {t("visitGithub")}
             <ExternalLink fontSize={18} className="translate-y-[-3px]" />
           </a>
-        </div>
+        </motion.div>
+      </motion.div>
+
+      <div className="w-full h-500 bg-base-200 absolute top-[555px]">
+
       </div>
     </>
   );
