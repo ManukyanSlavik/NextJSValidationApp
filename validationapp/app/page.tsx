@@ -2,24 +2,10 @@
 
 import { ExternalLink } from "@/public/icons";
 import { useTranslation } from "react-i18next";
-import Header from "./components/header";
-import { motion, stagger } from "framer-motion";
-
-const container = {
-  hidden: { opacity: 0 },
-  show: {
-    opacity: 1,
-    transition: {
-      when: "beforeChildren",
-      staggerChildren: 0.3
-    },
-  },
-}
-
-const item = {
-  hidden: { opacity: 0, y: 20 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.6 } },
-};
+import Header from "./components/ui-kit/header";
+import { motion } from "framer-motion";
+import { container, item } from "@/public/utils/animations";
+import FeatureBlock from "./components/ui-kit/featureBlock";
 
 export default function Home() {
   const { t } = useTranslation("landing");
@@ -32,12 +18,23 @@ export default function Home() {
         <div className="pointer-events-none absolute right-0 top-[360px] z-1 h-[28vmin] w-[28vmin] bg-base-300 [clip-path:polygon(100%_100%,0_100%,100%_0)]"></div>
       </section>
       <Header />
-      <motion.div variants={container} initial="hidden" animate="show" className="z-10">
+      <motion.div
+        variants={container}
+        initial="hidden"
+        animate="show"
+        className="z-10"
+      >
         <div>
-          <motion.h1 variants={item} className="text-[56px] text-primary-content text-center font-bold mt-10">
+          <motion.h1
+            variants={item}
+            className="text-[56px] text-primary-content text-center font-bold mt-10"
+          >
             {t("title")}
           </motion.h1>
-          <motion.h2 variants={item} className="text-[24px] text-secondary font-bold text-center mt-5">
+          <motion.h2
+            variants={item}
+            className="text-[24px] text-secondary font-bold text-center mt-5"
+          >
             {t("subTitle")}
           </motion.h2>
         </div>
@@ -53,7 +50,10 @@ export default function Home() {
                 {t("or")}
               </span>
 
-              <a href="/signin" className="btn btn-neutral text-primary-content font-bold">
+              <a
+                href="/signin"
+                className="btn btn-neutral text-primary-content font-bold"
+              >
                 {t("signUp")}
               </a>
             </motion.div>
@@ -72,8 +72,19 @@ export default function Home() {
         </motion.div>
       </motion.div>
 
-      <div className="w-full h-500 bg-base-200 absolute top-[555px]">
+      <motion.div
+        variants={container}
+        initial="hidden"
+        animate="show"
+        className="w-full h-fit py-[50px] bg-base-200 absolute top-[660px]"
+      >
+        <FeatureBlock type="design" />
+        <FeatureBlock type="device" />
+        <FeatureBlock type="speed" />
+      </motion.div>
 
+      <div className="w-full h-[500px] bg-base-100 absolute top-[1660px]">
+        Test
       </div>
     </>
   );

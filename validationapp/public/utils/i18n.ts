@@ -13,6 +13,18 @@ i18n.use(initReactI18next).init({
         signUp: "Sign up",
         or: "or",
         visitGithub: "Visit project's GitHub page",
+
+        designTitle: "Minimalistic design",
+        designDesc:
+          "A slick and intuitive design with no distractions and redundant features.\n Focus on what's important.",
+
+        deviceTitle: "Multi-device access",
+        deviceDesc:
+          "Your tasks are stored securely in the cloud,\nso you stay in sync across all your devices.",
+
+        speedTitle: "Fast & Lightweight",
+        speedDesc:
+          "Optimized for speed with a lightweight architecture.\nEnjoy instant loading and snappy interactions.",
       },
       dashboard: {},
     },
@@ -24,6 +36,18 @@ i18n.use(initReactI18next).init({
         signUp: "Registrieren",
         or: "oder",
         visitGithub: "GitHub-Seite des Projekts besuchen",
+
+        designTitle: "Minimalistic design",
+        designDesc:
+          "Ein schlankes und intuitives Design ohne Ablenkungen oder überflüssige Funktionen.\nKonzentriere dich auf das Wesentliche.",
+
+        deviceTitle: "Multi-device access",
+        deviceDesc:
+          "Deine Aufgaben werden sicher in der Cloud gespeichert,\nsodass du auf all deinen Geräten stets synchron bleibst.",
+
+        speedTitle: "Fast & Lightweight",
+        speedDesc:
+          "Für Geschwindigkeit optimiert - mit einer schlanken Architektur.\nGenieße kurze Ladezeiten und flüssige Interaktionen.",
       },
       dashboard: {},
     },

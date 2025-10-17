@@ -26,7 +26,3 @@ export default function RootLayout({
     </html>
   );
 }
-
-{
-  /*Framer motion*/
-}
