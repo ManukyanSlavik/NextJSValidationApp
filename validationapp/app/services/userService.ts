@@ -1,6 +1,7 @@
 import { signUpSchema } from "../schema";
 import prisma from "@/prisma/client";
 import bcrypt from "bcryptjs";
+import { z, ZodIssue } from "zod";
 
 export async function getAllUsers() {
   return await prisma.user.findMany();
@@ -33,13 +34,26 @@ export async function registerUser(data: {
 }) {
   const parsed = signUpSchema.safeParse(data);
 
-  if (!parsed.success) return { success: false, errors: parsed.error.issues };
+  if (!parsed.success) return { success: false, errors: z.flattenError(parsed.error) };
 
   if (
-    !(await prisma.user.findUnique({ where: { email: parsed.data.email } }))
+    (await prisma.user.findUnique({ where: { email: parsed.data.email } }))
   ) {
-    await createUser(data);
+    return {
+      success: false,
+      errors: {
+        fieldErrors: {},
+        formErrors: ["User already exists."]
+      }
+    }
   }
 
-  return { success: false, errors: [] };
+  await createUser(data);
+  return {
+    success: true,
+    errors: {
+      fieldErrors: {},
+        formErrors: []
+    }
+  }
 }

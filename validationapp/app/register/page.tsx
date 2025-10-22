@@ -6,18 +6,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { SignUpForm, signUpSchema } from "../schema";
 import { registerAction } from "./actions";
-import { ZodIssue } from "zod";
 import { useRouter } from "next/navigation";
-
-function applyZodIssues<T>(
-  issues: ZodIssue[],
-  setError: (name: keyof T, error: { type: string; message?: string }) => void
-) {
-  for (const issue of issues) {
-    const field = issue.path[0] as keyof T;
-    setError(field, { type: "server", message: issue.message });
-  }
-}
 
 const SignUp = () => {
   const router = useRouter();
@@ -38,12 +27,18 @@ const SignUp = () => {
     tmp.set("password", values.password);
 
     const res = await registerAction(tmp);
+    
+    if (!res.success){
+      const { fieldErrors, formErrors } = res.errors;
+      
+      for (const [k, msgs] of Object.entries(fieldErrors ?? {})) {
+        const msg = msgs?.[0];
+        if (msg) setError(k as keyof SignUpForm, { type: "server", message: msg });
+      }
 
-    if (!res.success) {
-      if (res.errors?.length === 0)
-        setError("root", { type: "server", message: "User already exists" });
-      else applyZodIssues<SignUpForm>(res.errors ?? [], setError);
-    }
+      for (const err in formErrors)
+        setError("root", {type: "server", message: err});
+    }  
 
     router.push("/");
   };
