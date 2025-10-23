@@ -11,6 +11,7 @@ i18n.use(initReactI18next).init({
           "A clean and modern task tracker to keep you up to date wherever you are, on any device",
         tryDemo: "Try demo",
         signUp: "Sign up",
+        signIn: "Sign in",
         or: "or",
         visitGithub: "Visit project's GitHub page",
 
@@ -34,6 +35,7 @@ i18n.use(initReactI18next).init({
         subTitle: "Ein moderner Task-Tracker, der dich auf dem Laufenden hält.",
         tryDemo: "Demo ausprobieren",
         signUp: "Registrieren",
+        signIn: "Einloggen",
         or: "oder",
         visitGithub: "GitHub-Seite des Projekts besuchen",
 
