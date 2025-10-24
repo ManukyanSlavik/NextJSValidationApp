@@ -3,7 +3,7 @@
 import { ThemeSwitcherIcon } from "@/public/icons";
 import React, { useEffect, useState } from "react";
 
-const ThemeSwitcher = () => {
+const ThemeSwitcher = ({size}: {size: number}) => {
   const [theme, setTheme] = useState("dark");
   const color = theme === "dark" ? "white" : "#1E1E1E";
   const changeTheme = () => {
@@ -19,7 +19,7 @@ const ThemeSwitcher = () => {
       onClick={changeTheme}
       className="cursor-pointer btn btn-ghost btn-circle btn-sm border border-base-content/20 hover:border-primary hover:bg-base-200 transition"
     >
-      <ThemeSwitcherIcon fontSize={20} color={color} />
+      <ThemeSwitcherIcon fontSize={size} color={color} />
     </div>
   );
 };

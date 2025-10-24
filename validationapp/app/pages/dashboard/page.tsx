@@ -1,9 +1,9 @@
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { taskData, tagData } from "@/app/components/tasks/data";
+import TaskBoard from "@/app/components/tasks/taskBoard";
+import { getAllTags } from "@/app/services/tagService";
+import { getAllTasks } from "@/app/services/taskService";
 import { getServerSession } from "next-auth";
-import { getAllTasks } from "../services/taskService";
-import { tagData, taskData } from "../components/tasks/data";
-import { getAllTags } from "../services/tagService";
-import TaskBoard from "../components/tasks/taskBoard";
-import { authOptions } from "../api/auth/[...nextauth]/route";
 
 export default async function Dashboard() {
     const session = await getServerSession(authOptions);

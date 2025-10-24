@@ -36,7 +36,7 @@ const Header = () => {
           </button>
         </div>
 
-        <ThemeSwitcher />
+        <ThemeSwitcher size={20}/>
       </div>
     </header>
   );

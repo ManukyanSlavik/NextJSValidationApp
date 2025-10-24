@@ -1,7 +1,6 @@
-import { Geist, Geist_Mono } from "next/font/google";
-import "../globals.css";
-import Navbar from "../components/navbar";
-import AuthProvider from "../api/auth/AuthProvider";
+import "../../globals.css";
+import AuthProvider from "@/app/api/auth/AuthProvider";
+import DashboardNavbar from "@/app/components/ui-kit/dashboardNavbar";
 
 export default function DashboardLayout({
   children,
@@ -12,7 +11,7 @@ export default function DashboardLayout({
     <>
       <header>
         <AuthProvider>
-          <Navbar></Navbar>
+          <DashboardNavbar></DashboardNavbar>
         </AuthProvider>
       </header>
       {children}

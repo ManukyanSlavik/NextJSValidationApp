@@ -59,8 +59,10 @@ const CreateTaskForm = ({ closeDrawer }: Props) => {
 
   return (
     <form className="menu bg-base-200 text-base-content min-h-full w-180 p-4">
-      {/* Sidebar content here */}
-      <h1 className="text-3xl mb-10 mx-auto"> Create a new task </h1>
+      <h1 className="text-3xl text-primary-content mb-10 mx-auto">
+        {" "}
+        Create a new task{" "}
+      </h1>
 
       {errors.name && (
         <p className="text-error mx-auto my-5 w-150">{errors.name?.message}</p>
@@ -71,7 +73,7 @@ const CreateTaskForm = ({ closeDrawer }: Props) => {
           {...register("name", { required: "This field is required" })}
           type="text"
           placeholder="Task name"
-          className="input input-bordered w-full"
+          className="input input-bordered input-neutral text-base-300 w-full"
         />
       </div>
 
@@ -87,7 +89,7 @@ const CreateTaskForm = ({ closeDrawer }: Props) => {
             required: "This field is required",
           })}
           placeholder="Task's description"
-          className="textarea w-full"
+          className="textarea textarea-neutral text-base-300 w-full"
         ></textarea>
       </div>
 
@@ -106,7 +108,7 @@ const CreateTaskForm = ({ closeDrawer }: Props) => {
             value={newTagField}
             type="text"
             placeholder="Tag's name"
-            className="input input-bordered w-full mr-1"
+            className="input input-bordered input-neutral text-base-300 w-full mr-1"
           />
           <button
             type="button"
@@ -118,11 +120,11 @@ const CreateTaskForm = ({ closeDrawer }: Props) => {
         </div>
         <div className="flex flex-wrap gap-2">
           {tags.length === 0 && (
-            <p className="mx-auto text-gray-400">Add some tags!</p>
+            <p className="mx-auto text-base-300">Add some tags!</p>
           )}
           {tags.map((t) => (
             <label
-              className="label mx-2 flex justify-between bg-gray-800 rounded-4xl p-3"
+              className="label mx-2 flex justify-between bg-base-100 rounded-4xl p-3"
               key={t.id}
             >
               <div>
@@ -141,7 +143,7 @@ const CreateTaskForm = ({ closeDrawer }: Props) => {
                       );
                   }}
                 />
-                {t.name}
+                <span className="text-primary-content">{t.name}</span>
               </div>
               <div>
                 <button
