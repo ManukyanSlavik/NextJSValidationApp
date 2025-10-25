@@ -7,6 +7,7 @@ import { motion } from "framer-motion";
 import { container, item } from "@/public/utils/animations";
 import FeatureBlock from "./components/ui-kit/featureBlock";
 import TechStackCard from "./components/ui-kit/techStackCard";
+import Link from "next/link";
 
 export default function Home() {
   const { t } = useTranslation("landing");
@@ -44,20 +45,20 @@ export default function Home() {
           <div className="pt-20">
             <div className="w-fit mx-auto">
               <motion.div variants={item} className="flex items-center gap-4">
-                <a href="/register" className="btn btn-primary text-primary-content font-bold">
+                <Link href="/pages/auth/register" className="btn btn-primary text-primary-content font-bold">
                   {t("signUp")}
-                </a>
+                </Link>
 
                 <span className="text-primary-content text-lg font-bold select-none">
                   {t("or")}
                 </span>
 
-                <a
-                  href="/signin"
+                <Link
+                  href="/pages/auth/signin"
                   className="btn btn-neutral text-primary-content font-bold"
                 >
                   {t("signIn")}
-                </a>
+                </Link>
               </motion.div>
             </div>
           </div>

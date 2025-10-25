@@ -26,30 +26,29 @@ const Task = ({ onEdit }: Props) => {
       />
 
       <div className="drawer-content">
-        <div className="mx-auto w-400 mt-10 overflow-x-auto rounded-box border border-gray-700">
+        <div className="mx-auto w-400 mt-10 overflow-x-auto rounded-box border border-neutral">
           <table className="table">
             <thead>
-              <tr className="divide-x divide-gray-700">
+              <tr className="divide-x divide-neutral">
                 <th className="w-auto"></th>
-                <th className="w-auto">Name</th>
-                <th className="w-auto">Description</th>
-                <th className="w-auto">Tags</th>
-                <th className="w-auto">Edit</th>
-                <th className="w-auto">Delete</th>
+                <th className="w-auto text-primary-content">Name</th>
+                <th className="w-auto text-primary-content">Description</th>
+                <th className="w-auto text-primary-content">Tags</th>
+                <th className="w-auto text-primary-content">Edit</th>
+                <th className="w-auto text-primary-content">Delete</th>
               </tr>
             </thead>
             <tbody>
               {tasks.map((t, index) => (
-                <tr key={t.id} className="divide-x divide-gray-700">
+                <tr key={t.id} className="divide-x divide-neutral">
                   <td>
                     <input
                       type="checkbox"
-                      // checked={t.isCompleted}
                       className="checkbox checkbox-primary"
                     />
                   </td>
-                  <td>{t.name}</td>
-                  <td>{t.description}</td>
+                  <td className="text-primary-content">{t.name}</td>
+                  <td className="text-primary-content">{t.description}</td>
                   <td className="max-w-28">
                     <div className="flex justify-center flex-wrap gap-2">
                       {tags
@@ -59,7 +58,7 @@ const Task = ({ onEdit }: Props) => {
                         .map((tag) => (
                           <div
                             key={tag.id}
-                            className="bg-gray-800 rounded-xl px-3 py-1"
+                            className="bg-base-200 rounded-xl px-3 py-1"
                           >
                             {tag.name}
                           </div>
@@ -69,7 +68,7 @@ const Task = ({ onEdit }: Props) => {
                   <td>
                     <button
                       type="button"
-                      className="btn bg-amber-50"
+                      className="btn bg-base-300"
                       onClick={() => {
                         onEdit(t);
                       }}
@@ -86,7 +85,7 @@ const Task = ({ onEdit }: Props) => {
                         removeTask(t, index);
                       }}
                     >
-                      <TrashIcon className="text-amber-50 w-4 h-4" />
+                      <TrashIcon className="text-base-300 w-4 h-4" />
                     </button>
                   </td>
                 </tr>

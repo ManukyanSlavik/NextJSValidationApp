@@ -4,7 +4,7 @@ import Link from "next/link";
 import React from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { SignUpForm, signUpSchema } from "../schema";
+import { SignUpForm, signUpSchema } from "../../../schema";
 import { registerAction } from "./actions";
 import { useRouter } from "next/navigation";
 
@@ -27,20 +27,21 @@ const SignUp = () => {
     tmp.set("password", values.password);
 
     const res = await registerAction(tmp);
-    
-    if (!res.success){
+
+    if (!res.success) {
       const { fieldErrors, formErrors } = res.errors;
-      
+
       for (const [k, msgs] of Object.entries(fieldErrors ?? {})) {
         const msg = msgs?.[0];
-        if (msg) setError(k as keyof SignUpForm, { type: "server", message: msg });
+        if (msg)
+          setError(k as keyof SignUpForm, { type: "server", message: msg });
       }
 
       for (const err in formErrors)
-        setError("root", {type: "server", message: err});
-    }  
+        setError("root", { type: "server", message: err });
+    }
 
-    router.push("/");
+    router.push("/dashboard");
   };
 
   return (
@@ -50,7 +51,9 @@ const SignUp = () => {
           className="card-body space-y-4"
           onSubmit={handleSubmit(onSubmitForm)}
         >
-          <h2 className="text-2xl font-bold text-center">Create an Account</h2>
+          <h2 className="text-2xl font-bold text-center text-primary-content">
+            Create an Account
+          </h2>
           {errors.root && (
             <p className="text-error text-sm mx-5 mt-2">
               {errors.root?.message}
@@ -62,7 +65,7 @@ const SignUp = () => {
               {...register("name")}
               type="text"
               placeholder="Enter username"
-              className="input input-bordered mx-10"
+              className="input input-bordered input-neutral text-base-300 mx-10"
               required
             />
             {errors.name && (
@@ -77,7 +80,7 @@ const SignUp = () => {
               {...register("email")}
               type="email"
               placeholder="you@example.com"
-              className="input input-bordered mx-10"
+              className="input input-bordered input-neutral text-base-300 mx-10"
               required
             />
             {errors.email && (
@@ -92,7 +95,7 @@ const SignUp = () => {
               {...register("password")}
               type="password"
               placeholder="••••••••"
-              className="input input-bordered mx-10"
+              className="input input-bordered input-neutral text-base-300 mx-10"
               required
             />
             {errors.password && (
@@ -108,7 +111,7 @@ const SignUp = () => {
             </button>
           </div>
 
-          <p className="text-center text-sm">
+          <p className="text-center text-sm text-primary-content">
             Already have an account?{" "}
             <Link href="/api/auth/signin" className="link link-primary">
               Sign in

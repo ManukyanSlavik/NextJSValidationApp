@@ -5,7 +5,7 @@ import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import React from "react";
 import { useForm } from "react-hook-form";
-import { SignInForm, signInSchema } from "../schema";
+import { SignInForm, signInSchema } from "../../../schema";
 import Link from "next/link";
 
 const SignIn = () => {
@@ -36,7 +36,7 @@ const SignIn = () => {
       return;
     }
 
-    router.push("/dashboard");
+    router.push("/pages/dashboard");
   }
 
   return (
@@ -46,7 +46,7 @@ const SignIn = () => {
           className="card-body space-y-4"
           onSubmit={handleSubmit(onSubmitLogin)}
         >
-          <h2 className="text-2xl font-bold text-center">
+          <h2 className="text-2xl font-bold text-center text-primary-content">
             Sign into an existing Account
           </h2>
 
@@ -61,7 +61,7 @@ const SignIn = () => {
               {...register("email", { required: "This field is required" })}
               type="email"
               placeholder="you@example.com"
-              className="input input-bordered mx-10"
+              className="input input-bordered input-neutral text-base-300 mx-10"
               required
             />
           </div>
@@ -71,7 +71,7 @@ const SignIn = () => {
               {...register("password", { required: "This field is required" })}
               type="password"
               placeholder="••••••••"
-              className="input input-bordered mx-10"
+              className="input input-bordered input-neutral text-base-300 mx-10"
               required
             />
           </div>
@@ -82,9 +82,9 @@ const SignIn = () => {
             </button>
           </div>
 
-          <p className="text-center text-sm">
+          <p className="text-center text-sm text-primary-content">
             Dont have an account?{" "}
-            <Link href="/register" className="link link-primary">
+            <Link href="/pages/auth/register" className="link link-primary">
               Sign up
             </Link>
           </p>

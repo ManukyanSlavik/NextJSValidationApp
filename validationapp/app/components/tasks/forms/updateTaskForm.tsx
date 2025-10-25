@@ -71,7 +71,10 @@ const UpdateTaskForm = ({ task, closeDrawer }: Props) => {
 
   return (
     <form className="menu bg-base-200 text-base-content min-h-full w-180 p-4">
-      <h1 className="text-3xl mb-10 mx-auto"> Edit a task </h1>
+      <h1 className="text-3xl mb-10 mx-auto text-primary-content">
+        {" "}
+        Edit a task{" "}
+      </h1>
 
       {errors.name && (
         <p className="text-error mx-auto my-5 w-150">{errors.name?.message}</p>
@@ -82,7 +85,7 @@ const UpdateTaskForm = ({ task, closeDrawer }: Props) => {
           {...register("name", { required: "This field is required" })}
           type="text"
           placeholder="Task name"
-          className="input input-bordered w-full"
+          className="input input-bordered input-neutral text-base-300 w-full"
         />
       </div>
 
@@ -96,12 +99,12 @@ const UpdateTaskForm = ({ task, closeDrawer }: Props) => {
         <textarea
           {...register("description", { required: "This field is required" })}
           placeholder="Task's description"
-          className="textarea w-full"
+          className="textarea textarea-neutral text-base-300 w-full"
         ></textarea>
       </div>
 
       <div className="form-control mx-auto mb-10 w-150">
-        <h1 className="text-xl mb-5">Tags</h1>
+        <h1 className="text-xl text-primary-content mb-5">Tags</h1>
 
         {tagErrors !== "" && (
           <div className="mx-auto mb-5 w-150">
@@ -115,7 +118,7 @@ const UpdateTaskForm = ({ task, closeDrawer }: Props) => {
             value={newTagField}
             type="text"
             placeholder="Tag's name"
-            className="input input-bordered w-full mr-1"
+            className="input input-bordered input-neutral text-base-300 w-full mr-1"
           />
           <button
             type="button"
@@ -128,11 +131,11 @@ const UpdateTaskForm = ({ task, closeDrawer }: Props) => {
 
         <div className="flex flex-wrap gap-2">
           {tags.length === 0 && (
-            <p className="mx-auto text-gray-400">Add some tags!</p>
+            <p className="mx-auto text-base-300">Add some tags!</p>
           )}
           {tags.map((t) => (
             <label
-              className="label mx-2 flex justify-between bg-gray-800 rounded-4xl p-3"
+              className="label mx-2 flex justify-between bg-base-100 rounded-4xl p-3"
               key={t.id}
             >
               <div>
@@ -151,7 +154,7 @@ const UpdateTaskForm = ({ task, closeDrawer }: Props) => {
                   type="checkbox"
                   className="checkbox checkbox-primary mr-2"
                 />
-                {t.name}
+                <span className="text-primary-content">{t.name}</span>
               </div>
               <div>
                 <button
