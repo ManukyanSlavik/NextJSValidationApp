@@ -1,7 +1,7 @@
 import { signUpSchema } from "../schema";
 import prisma from "@/prisma/client";
 import bcrypt from "bcryptjs";
-import { z, ZodIssue } from "zod";
+import { z } from "zod";
 
 export async function getAllUsers() {
   return await prisma.user.findMany();

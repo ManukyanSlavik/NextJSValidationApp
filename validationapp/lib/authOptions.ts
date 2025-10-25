@@ -1,5 +1,5 @@
 import prisma from "@/prisma/client";
-import NextAuth, { Session, User } from "next-auth";
+import { Session, User } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
 import { JWT } from "next-auth/jwt";
