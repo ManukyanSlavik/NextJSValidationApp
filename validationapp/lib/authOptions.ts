@@ -4,7 +4,7 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
 import { JWT } from "next-auth/jwt";
 import { AdapterUser } from "next-auth/adapters";
-import { signInSchema } from "../schema";
+import { signInSchema } from "../app/schema";
 
 export const authOptions = {
   providers: [
