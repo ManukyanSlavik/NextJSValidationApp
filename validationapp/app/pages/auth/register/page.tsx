@@ -41,7 +41,7 @@ const SignUp = () => {
         setError("root", { type: "server", message: err });
     }
 
-    router.push("/dashboard");
+    router.push("/pages/dashboard");
   };
 
   return (
