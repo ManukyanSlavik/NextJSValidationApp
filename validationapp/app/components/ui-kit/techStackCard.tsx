@@ -8,7 +8,7 @@ export type TechStackCardType = "react" | "next" | "db" ;
 const TechStackCard = ({ type }: { type: TechStackCardType }) => {
   return (
     <motion.div variants={item} className='flex flex-col justify-between w-[300px] h-[300px] bg-base-200 rounded-[20px] p-5 drop-shadow-[0_0_4px_rgba(217,217,217,0.25)]'>
-        {type === "react" && <ReactIcon className='w-[110px] h-[95px] mx-auto bg-base-200' />}
+        {type === "react" && <ReactIcon className='w-[110px] h-[95px] mx-auto text-accent' />}
         {type === "next" && <Nextjs className='w-[110px] h-[110px] text-base-300 mx-auto' />}
         {type === "db" && <MysqlIcon className='w-[110px] h-[110px] mx-auto'/>}
         <div className="flex flex-col justify-between h-[150px] my-5">

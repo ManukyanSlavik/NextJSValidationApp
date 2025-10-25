@@ -26,6 +26,8 @@ i18n.use(initReactI18next).init({
         speedTitle: "Fast & Lightweight",
         speedDesc:
           "Optimized for speed with a lightweight architecture.\nEnjoy instant loading and snappy interactions.",
+
+        
       },
       dashboard: {},
     },

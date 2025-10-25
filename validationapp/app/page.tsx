@@ -13,7 +13,7 @@ export default function Home() {
 
   return (
     <>
-      <div className="relative bg-neutral-950 pb-30">
+      <div className="relative bg-base-100 pb-30">
         <div className="pointer-events-none absolute left-0 top-0 h-[28vmin] w-[28vmin] bg-base-300 [clip-path:polygon(0_0,100%_0,0_100%)]"></div>
 
         <div className="pointer-events-none absolute right-0 top-[360px] h-[50vmin] w-[50vmin] bg-base-300 [clip-path:polygon(100%_100%,0_100%,100%_0)]"></div>
